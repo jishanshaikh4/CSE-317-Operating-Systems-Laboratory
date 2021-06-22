@@ -25,7 +25,6 @@ void lock(int thread){
 		int ticket = tickets[i]; 
 		max_ticket = ticket > max_ticket ? ticket : max_ticket; 
 	} 
-
 	tickets[thread] = max_ticket + 1; 
 
 	MEMBAR; 
@@ -33,23 +32,15 @@ void lock(int thread){
 	MEMBAR; 
 
 	for (int other = 0; other < THREAD_COUNT; ++other) { 
-
 		while (choosing[other]) { 
 		} 
-
 		MEMBAR; 
-
-		while (tickets[other] != 0 && (tickets[other] 
-										< tickets[thread] 
-									|| (tickets[other] 
-											== tickets[thread] 
-										&& other < thread))){ 
+		while (tickets[other] != 0 && (tickets[other] < tickets[thread] || (tickets[other] == tickets[thread] && other < thread))){ 
 		} 
 	} 
 } 
 
 void unlock(int thread) { 
-
 	MEMBAR; 
 	tickets[thread] = 0; 
 } 
@@ -59,7 +50,6 @@ void use_resource(int thread) {
 		printf("Resource was acquired by %d, but is still in-use by %d!\n", 
 			thread, resource); 
 	} 
-
 	resource = thread; 
 	printf("%d using resource...\n", thread); 
 
