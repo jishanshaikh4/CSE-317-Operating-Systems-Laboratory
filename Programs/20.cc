@@ -26,7 +26,6 @@ void consumer(){
     mutex=signal(mutex);
 }
 int main(){
-   
     printf("\n1.Producer\n2.Consumer\n3.Exit");
     while(1){
         printf("\nEnter your choice:");
